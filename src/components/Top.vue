@@ -35,11 +35,11 @@
                         </div>
                       </div>
                   </a>
-                  <a class="nav-n2">
-                      <p @click="showLogin($event)" @mouseenter="activeMove(1)" @mouseleave="activeMove(navActiveIndex)" >我的</p>
+                  <a class="nav-n2" @click="showLogin($event)" @mouseenter="activeMove(1)" @mouseleave="activeMove(navActiveIndex)">
+                      <p>我的</p>
                   </a>
-                  <a class="nav-n3" href="/">
-                      <p @mouseenter="activeMove(2)" @mouseleave="activeMove(navActiveIndex)">APP下载</p>
+                  <a class="nav-n3" href="/" @mouseenter="activeMove(2)" @mouseleave="activeMove(navActiveIndex)">
+                      <p>APP下载</p>
                   </a>
                   <div class="header-bottom-action" id="active" ref="active"></div>
               </div>
@@ -53,9 +53,21 @@
               </div>
               <div class="heard-right">
                   <div class="nav">
-                    <a class="nav-icon" v-for="(item, index) in topNav" :key="index">
-                          <i class="xuicon x-icon" :class="item.id"></i>
-                          <p class="icon-title">{{item.title}}</p>
+                    <a class="nav-icon">
+                          <i class="xuicon x-icon xuicon-web_ic_upload_h1"></i>
+                          <p class="icon-title">上传</p>
+                    </a>
+                    <a class="nav-icon">
+                          <i class="xuicon x-icon xuicon-web_ic_backstage_h1"></i>
+                          <p class="icon-title">主播后台</p>
+                    </a>
+                    <a class="nav-icon">
+                          <i class="xuicon x-icon xuicon-web_ic_xpy"></i>
+                          <p class="icon-title">喜配音</p>
+                    </a>
+                    <a class="nav-icon">
+                          <i class="xuicon x-icon xuicon-web_ic_xiaoya_h1"></i>
+                          <p class="icon-title">小雅音箱</p>
                     </a>
                   </div>
                   <div class="nav-my">
