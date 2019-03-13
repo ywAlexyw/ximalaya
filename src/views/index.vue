@@ -1,518 +1,520 @@
 <template>
   <div class="main-page">
-    <div class="main-content">
-      <Swiper/>
-      <div class="category-wrap">
-        <div class="category">
-          <div class="change sub-category">
-            <router-link class="entry-t1" to="category">
-              <i class="icon"></i>
-              <span>全部分类</span>
-            </router-link>
-            <router-link class="entry-t2" to="category">
-              <span>排行榜</span>
-              &nbsp;&nbsp;·&nbsp;&nbsp;
-              <span>看小说</span>
-            </router-link>
-          </div>
-          <div class="sub-category"
-               v-for="(item,index) in category"
-               :key="index">
-            <router-link class="category-title"
-                         to="category"
-                         :class="item.id">{{item.title}}</router-link>
-            <div class="category-content-index OP">
-              <span class="name"
-                    v-for="(sub, index) in item.content"
-                    :key="index"
-                    v-if="index < 6">
-                <router-link v-if="item.content.length > 6 && index < 5" to="category">{{sub.name}}</router-link>
-                <router-link v-if="item.content.length < 7" to="category">{{sub.name}}</router-link>
-                <a v-if="item.content.length > 6 && index == 5"
-                   @mouseover="showMore(item.id)"
-                   @mouseout="showMore(item.id)" to="category">更多></a>
-              </span>
-            </div>
-          </div>
-          <transition :name="item.id"
-                      v-for="(item,index) in category"
-                      :key="index"
-                      v-if="isShow && index < 2 && item.id == ID">
-            <div class="xui-popover"
-                 :class="item.name"
-                 @mouseover="isShow = true"
-                 @mouseout="isShow = false">
-              <div class="xui-popover-content">
-                <div class="xui-popover-arrow"></div>
-                <div class="xui-popover-inner">
-                  <div class="xui-popover-inner-content">
-                    <div class="cateory-more">
-                      <router-link class="cateory-more-title"
-                                   to="category">进入{{item.title}} ></router-link>
-                      <div class="category-more-content">
-                        <span class="name"
-                              v-for="(sub, index) in item.content"
-                              :key="index"
-                              v-if="index > 4">
-                          <router-link to="category">{{sub.name}}</router-link>
-                        </span>
-                      </div>
-                    </div>
-                  </div>
+    <Swiper/>
+    <main class="main">
+      <div class="main-content" v-if="category.length !== 0">
+        <div class="category-wrap">
+            <div class="category">
+              <div class="change sub-category">
+                <router-link class="entry-t1" to="category">
+                  <i class="icon"></i>
+                  <span>全部分类</span>
+                </router-link>
+                <router-link class="entry-t2" to="category">
+                  <span>排行榜</span>
+                  &nbsp;&nbsp;·&nbsp;&nbsp;
+                  <span>看小说</span>
+                </router-link>
+              </div>
+              <div class="sub-category"
+                  v-for="(item,index) in category"
+                  :key="index">
+                <router-link class="category-title"
+                            to="category"
+                            :class="item.id">{{item.title}}</router-link>
+                <div class="category-content-index OP">
+                  <span class="name"
+                        v-for="(sub, index) in item.content"
+                        :key="index"
+                        v-if="index < 6">
+                    <router-link v-if="item.content.length > 6 && index < 5" to="category">{{sub.name}}</router-link>
+                    <router-link v-if="item.content.length < 7" to="category">{{sub.name}}</router-link>
+                    <a v-if="item.content.length > 6 && index == 5"
+                      @mouseover="showMore(item.id)"
+                      @mouseout="showMore(item.id)" to="category">更多></a>
+                  </span>
                 </div>
               </div>
-            </div>
-          </transition>
-        </div>
-      </div>
-    </div>
-    <div class="home-content">
-      <div class="layout-left">
-        <div class="guess-like">
-          <div class="recommend">
-            <div class="albums-head">
-              <h2 class="head-title">猜你喜欢</h2>
-              <div class="head-right"
-                   @click="change">
-                <span class="right-button">
-                  <i class="right-icon xuicon xuicon-huanyihuan"></i>
-                  换一批
-                </span>
-              </div>
-            </div>
-            <div class="recommend-content">
-              <ul>
-                <li class="albums"
-                    v-for="item in recommendList"
-                    :key="item.id"
-                    v-if="item.id < 6">
-                  <div class="albums-wrapper">
-                    <div class="wrapper-card">
-                      <router-link class="picture" to="section">
-                        <img :src="item.image">
-                        <div class="albums-cover">
-                          <i class="icon-ic_play" @click.stop.prevent="play($event)"></i>
-                        </div>
-                        <p class="albums-plays">
-                          <i class="icon-earphone xuicon xuicon-erji EV"></i>
-                          {{item.plays}}w
-                        </p>
-                      </router-link>
-                    </div>
-                    <router-link class="bookname" to="section">
-                      <span>{{item.name}}</span>
-                    </router-link>
-                    <router-link class="uper" to="personal">
-                      <span>by:&nbsp;&nbsp;{{item.uper}}</span>
-                    </router-link>
-                  </div>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        <div class="content-albums">
-          <div class="albums-class">
-            <div class="albums-list">
-              <div class="albums-head">
-                <h2 class="head-title">有声书</h2>
-                <div class="head-title_sub">
-                  <router-link class="sub" to="category">有声的紫襟</router-link>
-                  <router-link class="sub" to="category">多人小说剧</router-link>
-                  <router-link class="sub" to="category">鬼吹灯</router-link>
-                  <router-link class="sub" to="category">牛大宝</router-link>
-                  <router-link class="sub" to="category">黄金瞳</router-link>
-                  <router-link class="sub" to="category">盗墓笔记</router-link>
-                  <router-link class="sub" to="category">重生</router-link>
-                </div>
-                <a class="head-right">
-                  <span class="right-button">更多</span>
-                </a>
-              </div>
-              <div class="recommend-content">
-                <ul>
-                  <li class="albums"
-                      v-for="(item, index) in albumsClass_1"
-                      :key="index">
-                    <div class="albums-wrapper">
-                      <div class="wrapper-card">
-                        <router-link class="picture" to="section">
-                          <img :src="item.image">
-                          <div class="albums-cover">
-                            <i class="icon-ic_play" @click.stop.prevent="play"></i>
+              <transition :name="item.id"
+                          v-for="(item,index) in category"
+                          :key="index"
+                          v-if="isShow && index < 2 && item.id == ID">
+                <div class="xui-popover"
+                    :class="item.name"
+                    @mouseover="isShow = true"
+                    @mouseout="isShow = false">
+                  <div class="xui-popover-content">
+                    <div class="xui-popover-arrow"></div>
+                    <div class="xui-popover-inner">
+                      <div class="xui-popover-inner-content">
+                        <div class="cateory-more">
+                          <router-link class="cateory-more-title"
+                                      to="category">进入{{item.title}} ></router-link>
+                          <div class="category-more-content">
+                            <span class="name"
+                                  v-for="(sub, index) in item.content"
+                                  :key="index"
+                                  v-if="index > 4">
+                              <router-link to="category">{{sub.name}}</router-link>
+                            </span>
                           </div>
-                          <p class="albums-plays">
-                            <i class="icon-earphone xuicon xuicon-erji EV"></i>
-                            {{item.plays}}w
-                          </p>
-                        </router-link>
-                      </div>
-                      <router-link class="bookname" to="section">
-                        <span>{{item.name}}</span>
-                      </router-link>
-                      <router-link class="uper" to="personal">
-                        <span>by:&nbsp;&nbsp;{{item.uper}}</span>
-                      </router-link>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="content-albums">
-          <div class="albums-class">
-            <div class="albums-list">
-              <div class="albums-head">
-                <h2 class="head-title">儿童</h2>
-                <div class="head-title_sub">
-                  <router-link class="sub" to="category">植物大战僵尸</router-link>
-                  <router-link class="sub" to="category">西游记</router-link>
-                  <router-link class="sub" to="category">米小圈</router-link>
-                  <router-link class="sub" to="category">三国演义</router-link>
-                  <router-link class="sub" to="category">宝宝巴士</router-link>
-                  <router-link class="sub" to="category">奥特曼</router-link>
-                  <router-link class="sub" to="category">公主故事</router-link>
-                </div>
-                <a class="head-right">
-                  <span class="right-button">更多</span>
-                </a>
-              </div>
-              <div class="recommend-content">
-                <ul>
-                  <li class="albums"
-                      v-for="(item, index) in albumsClass_2"
-                      :key="index">
-                    <div class="albums-wrapper">
-                      <div class="wrapper-card">
-                        <router-link class="picture" to="section">
-                          <img :src="item.image">
-                          <div class="albums-cover">
-                            <i class="icon-ic_play" @click.stop.prevent="play"></i>
-                          </div>
-                          <p class="albums-plays">
-                            <i class="icon-earphone xuicon xuicon-erji EV"></i>
-                            {{item.plays}}w
-                          </p>
-                        </router-link>
-                      </div>
-                      <router-link class="bookname" to="section">
-                        <span>{{item.name}}</span>
-                      </router-link>
-                      <router-link class="uper" to="personal">
-                        <span>by:&nbsp;&nbsp;{{item.uper}}</span>
-                      </router-link>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="content-albums">
-          <div class="albums-class">
-            <div class="albums-list">
-              <div class="albums-head">
-                <h2 class="head-title">相声评书</h2>
-                <div class="head-title_sub">
-                  <router-link class="sub" to="category">单田芳</router-link>
-                  <router-link class="sub" to="category">郭德纲</router-link>
-                  <router-link class="sub" to="category">王玥波</router-link>
-                  <router-link class="sub" to="category">德云社</router-link>
-                  <router-link class="sub" to="category">岳云鹏</router-link>
-                  <router-link class="sub" to="category">郭德纲单口相声</router-link>
-                  <router-link class="sub" to="category">水浒传</router-link>
-                </div>
-                <a class="head-right">
-                  <span class="right-button">更多</span>
-                </a>
-              </div>
-              <div class="recommend-content">
-                <ul>
-                  <li class="albums"
-                      v-for="(item, index) in albumsClass_3"
-                      :key="index">
-                    <div class="albums-wrapper">
-                      <div class="wrapper-card">
-                        <router-link class="picture" to="section">
-                          <img :src="item.image">
-                          <div class="albums-cover">
-                            <i class="icon-ic_play" @click.stop.prevent="play"></i>
-                          </div>
-                          <p class="albums-plays">
-                            <i class="icon-earphone xuicon xuicon-erji EV"></i>
-                            {{item.plays}}w
-                          </p>
-                        </router-link>
-                      </div>
-                      <router-link class="bookname" to="section">
-                        <span>{{item.name}}</span>
-                      </router-link>
-                      <router-link class="uper" to="personal">
-                        <span>by:&nbsp;&nbsp;{{item.uper}}</span>
-                      </router-link>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="content-albums">
-          <div class="albums-class">
-            <div class="albums-list">
-              <div class="albums-head">
-                <h2 class="head-title">人文</h2>
-                <div class="head-title_sub">
-                  <router-link class="sub" to="category">红楼梦</router-link>
-                  <router-link class="sub" to="category">马未都</router-link>
-                  <router-link class="sub" to="category">道德经</router-link>
-                  <router-link class="sub" to="category">易经</router-link>
-                  <router-link class="sub" to="category">鬼谷子</router-link>
-                  <router-link class="sub" to="category">论语</router-link>
-                  <router-link class="sub" to="category">佛经</router-link>
-                </div>
-                <a class="head-right">
-                  <span class="right-button">更多</span>
-                </a>
-              </div>
-              <div class="recommend-content">
-                <ul>
-                  <li class="albums"
-                      v-for="(item, index) in albumsClass_4"
-                      :key="index">
-                    <div class="albums-wrapper">
-                      <div class="wrapper-card">
-                        <router-link class="picture" to="section">
-                          <img :src="item.image">
-                          <div class="albums-cover">
-                            <i class="icon-ic_play" @click.stop.prevent="play"></i>
-                          </div>
-                          <p class="albums-plays">
-                            <i class="icon-earphone xuicon xuicon-erji EV"></i>
-                            {{item.plays}}w
-                          </p>
-                        </router-link>
-                      </div>
-                      <router-link class="bookname" to="section">
-                        <span>{{item.name}}</span>
-                      </router-link>
-                      <router-link class="uper" to="personal">
-                        <span>by:&nbsp;&nbsp;{{item.uper}}</span>
-                      </router-link>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="content-albums">
-          <div class="albums-class">
-            <div class="albums-list">
-              <div class="albums-head">
-                <h2 class="head-title">音乐</h2>
-                <div class="head-title_sub">
-                  <router-link class="sub" to="category">抖音歌曲</router-link>
-                  <router-link class="sub" to="category">网络流行歌曲</router-link>
-                  <router-link class="sub" to="category">钢琴八级考级曲</router-link>
-                  <router-link class="sub" to="category">西班牙舞曲</router-link>
-                  <router-link class="sub" to="category">古装剧</router-link>
-                  <router-link class="sub" to="category">抖音</router-link>
-                  <router-link class="sub" to="category">黄家驹歌曲</router-link>
-                </div>
-                <a class="head-right">
-                  <span class="right-button">更多</span>
-                </a>
-              </div>
-              <div class="recommend-content">
-                <ul>
-                  <li class="albums"
-                      v-for="(item, index) in albumsClass_5"
-                      :key="index">
-                    <div class="albums-wrapper">
-                      <div class="wrapper-card">
-                        <router-link class="picture" to="section">
-                          <img :src="item.image">
-                          <div class="albums-cover">
-                            <i class="icon-ic_play" @click.stop.prevent="play"></i>
-                          </div>
-                          <p class="albums-plays">
-                            <i class="icon-earphone xuicon xuicon-erji EV"></i>
-                            {{item.plays}}w
-                          </p>
-                        </router-link>
-                      </div>
-                      <router-link class="bookname" to="section">
-                        <span>{{item.name}}</span>
-                      </router-link>
-                      <router-link class="uper" to="personal">
-                        <span>by:&nbsp;&nbsp;{{item.uper}}</span>
-                      </router-link>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="content-albums">
-          <div class="albums-class">
-            <div class="albums-list">
-              <div class="albums-head">
-                <h2 class="head-title">娱乐</h2>
-                <a class="head-right">
-                  <span class="right-button">更多</span>
-                </a>
-              </div>
-              <div class="recommend-content">
-                <ul>
-                  <li class="albums"
-                      v-for="(item, index) in albumsClass_6"
-                      :key="index">
-                    <div class="albums-wrapper">
-                      <div class="wrapper-card">
-                        <router-link class="picture" to="section">
-                          <img :src="item.image">
-                          <div class="albums-cover">
-                            <i class="icon-ic_play" @click.stop.prevent="play"></i>
-                          </div>
-                          <p class="albums-plays">
-                            <i class="icon-earphone xuicon xuicon-erji EV"></i>
-                            {{item.plays}}w
-                          </p>
-                        </router-link>
-                      </div>
-                      <router-link class="bookname" to="section">
-                        <span>{{item.name}}</span>
-                      </router-link>
-                      <router-link class="uper" to="personal">
-                        <span>by:&nbsp;&nbsp;{{item.uper}}</span>
-                      </router-link>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="layout-right">
-        <div class="layout-content">
-          <div class="user-card zTry"
-               v-if="!login">
-            <div class="card-content">
-              <img src="../assets/bg_684491a.png">
-              <div class="card-head">
-                <img src="../assets/default_9c0f537.png">
-                <div class="uc-head-title">
-                  <p>登陆一下，让我了解你</p>
-                </div>
-              </div>
-              <div class="card-login">
-                <div class="cl-wrap">
-                  <a class="login-btn"
-                     @click="showLogin">登录</a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="everyday zTry">
-            <div class="everyday-content">
-              <p class="content-title">每日必听</p>
-              <div class="content-date">
-                <p class="date-month">{{month}}</p>
-                <p class="date-day">{{day}}</p>
-              </div>
-            </div>
-          </div>
-          <div class="recommend-list zTry">
-            <div class="reco-cont">
-              <div class="reco-head">
-                <div class="reco-head-title">
-                  <h3 class>听单推荐</h3>
-                  <a class="reco-head-more">更多 ></a>
-                </div>
-              </div>
-              <div class="reco-cover">
-                <a class="cover-music">
-                  <div class="cover-music-pic">
-                    <img src="../assets/pic.png">
-                  </div>
-                  <p class="cover-music-mes">音乐星球Vol.12 这些歌手，开口就让人陶醉</p>
-                </a>
-              </div>
-              <div class="reco-main">
-                <ul>
-                  <li class="reco-main-albums"
-                      v-for="(item, index) in listenRecommend"
-                      :key="index">
-                    <router-link class="albums-mes" to="section">
-                      <div class="alb-mes-pic">
-                        <img :src="item.image">
-                        <div class="albums-cover">
-                          <i class="icon-ic_play" @click.stop.prevent="play"></i>
                         </div>
                       </div>
-                      <div class="alb-description">
-                        <h6>{{item.description}}</h6>
-                        <p>{{item.num}}专辑</p>
+                    </div>
+                  </div>
+                </div>
+              </transition>
+            </div>
+        </div>
+        <div class="home-content">
+          <div class="layout-left">
+            <div class="guess-like">
+              <div class="recommend">
+                <div class="albums-head">
+                  <h2 class="head-title">猜你喜欢</h2>
+                  <div class="head-right"
+                      @click="change">
+                    <span class="right-button">
+                      <i class="right-icon xuicon xuicon-huanyihuan"></i>
+                      换一批
+                    </span>
+                  </div>
+                </div>
+                <div class="recommend-content">
+                  <ul>
+                    <li class="albums"
+                        v-for="item in recommendList"
+                        :key="item.id"
+                        v-if="item.id < 6">
+                      <div class="albums-wrapper">
+                        <div class="wrapper-card">
+                          <router-link class="picture" to="section">
+                            <img :src="item.image">
+                            <div class="albums-cover">
+                              <i class="icon-ic_play" @click.stop.prevent="play($event)"></i>
+                            </div>
+                            <p class="albums-plays">
+                              <i class="icon-earphone xuicon xuicon-erji EV"></i>
+                              {{item.plays}}w
+                            </p>
+                          </router-link>
+                        </div>
+                        <router-link class="bookname" to="section">
+                          <span>{{item.name}}</span>
+                        </router-link>
+                        <router-link class="uper" to="personal">
+                          <span>by:&nbsp;&nbsp;{{item.uper}}</span>
+                        </router-link>
                       </div>
-                    </router-link>
-                  </li>
-                </ul>
+                    </li>
+                  </ul>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="card-wrap zTry"
-               v-for="(item, index) in everdayRecommend"
-               :key="index"
-               v-if="index !== 3">
-            <div class="card-content">
-              <div class="card-list-head">
-                <h3>
-                  <i class="tu1"
-                     width="16px"
-                     height="16px"></i>
-                  {{item.title}}
-                </h3>
-              </div>
-              <div class="card-cont-list">
-                <div class="card-cont-list-item"
-                     v-for="(sub, index) in everdayRecommend"
-                     :key="index"
-                     :class="{ topclean: index === 0 }">
-                  <div class="item-icon">
-                    <svg id="icon-ic_play_gray"
-                         viewBox="0 0 1024 1024"
-                         width="14px"
-                         height="14px">
-                      <path d="M512 512m-512 0a512 512 0 1 0 1024 0 512 512 0 1 0-1024 0Z"
-                            fill="#E8E8E8"></path>
-                      <path d="M460.8 307.2l243.712 153.6c28.672 18.432 36.864 55.296 18.432 83.968-4.096 8.192-12.288 14.336-18.432 18.432L460.8 716.8c-28.672 18.432-67.584 10.24-83.968-18.432-6.144-10.24-10.24-20.48-10.24-32.768v-307.2c0-34.816 26.624-61.44 61.44-61.44 12.288 0 22.528 4.096 32.768 10.24z"
-                            fill="#CCCCCC"></path>
-                    </svg>
+            <div class="content-albums">
+              <div class="albums-class">
+                <div class="albums-list">
+                  <div class="albums-head">
+                    <h2 class="head-title">有声书</h2>
+                    <div class="head-title_sub">
+                      <router-link class="sub" to="category">有声的紫襟</router-link>
+                      <router-link class="sub" to="category">多人小说剧</router-link>
+                      <router-link class="sub" to="category">鬼吹灯</router-link>
+                      <router-link class="sub" to="category">牛大宝</router-link>
+                      <router-link class="sub" to="category">黄金瞳</router-link>
+                      <router-link class="sub" to="category">盗墓笔记</router-link>
+                      <router-link class="sub" to="category">重生</router-link>
+                    </div>
+                    <a class="head-right">
+                      <span class="right-button">更多</span>
+                    </a>
                   </div>
-                  <a class="item-desc">{{sub.description}}</a>
+                  <div class="recommend-content">
+                    <ul>
+                      <li class="albums"
+                          v-for="(item, index) in albumsClass_1"
+                          :key="index">
+                        <div class="albums-wrapper">
+                          <div class="wrapper-card">
+                            <router-link class="picture" to="section">
+                              <img :src="item.image">
+                              <div class="albums-cover">
+                                <i class="icon-ic_play" @click.stop.prevent="play"></i>
+                              </div>
+                              <p class="albums-plays">
+                                <i class="icon-earphone xuicon xuicon-erji EV"></i>
+                                {{item.plays}}w
+                              </p>
+                            </router-link>
+                          </div>
+                          <router-link class="bookname" to="section">
+                            <span>{{item.name}}</span>
+                          </router-link>
+                          <router-link class="uper" to="personal">
+                            <span>by:&nbsp;&nbsp;{{item.uper}}</span>
+                          </router-link>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="content-albums">
+              <div class="albums-class">
+                <div class="albums-list">
+                  <div class="albums-head">
+                    <h2 class="head-title">儿童</h2>
+                    <div class="head-title_sub">
+                      <router-link class="sub" to="category">植物大战僵尸</router-link>
+                      <router-link class="sub" to="category">西游记</router-link>
+                      <router-link class="sub" to="category">米小圈</router-link>
+                      <router-link class="sub" to="category">三国演义</router-link>
+                      <router-link class="sub" to="category">宝宝巴士</router-link>
+                      <router-link class="sub" to="category">奥特曼</router-link>
+                      <router-link class="sub" to="category">公主故事</router-link>
+                    </div>
+                    <a class="head-right">
+                      <span class="right-button">更多</span>
+                    </a>
+                  </div>
+                  <div class="recommend-content">
+                    <ul>
+                      <li class="albums"
+                          v-for="(item, index) in albumsClass_2"
+                          :key="index">
+                        <div class="albums-wrapper">
+                          <div class="wrapper-card">
+                            <router-link class="picture" to="section">
+                              <img :src="item.image">
+                              <div class="albums-cover">
+                                <i class="icon-ic_play" @click.stop.prevent="play"></i>
+                              </div>
+                              <p class="albums-plays">
+                                <i class="icon-earphone xuicon xuicon-erji EV"></i>
+                                {{item.plays}}w
+                              </p>
+                            </router-link>
+                          </div>
+                          <router-link class="bookname" to="section">
+                            <span>{{item.name}}</span>
+                          </router-link>
+                          <router-link class="uper" to="personal">
+                            <span>by:&nbsp;&nbsp;{{item.uper}}</span>
+                          </router-link>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="content-albums">
+              <div class="albums-class">
+                <div class="albums-list">
+                  <div class="albums-head">
+                    <h2 class="head-title">相声评书</h2>
+                    <div class="head-title_sub">
+                      <router-link class="sub" to="category">单田芳</router-link>
+                      <router-link class="sub" to="category">郭德纲</router-link>
+                      <router-link class="sub" to="category">王玥波</router-link>
+                      <router-link class="sub" to="category">德云社</router-link>
+                      <router-link class="sub" to="category">岳云鹏</router-link>
+                      <router-link class="sub" to="category">郭德纲单口相声</router-link>
+                      <router-link class="sub" to="category">水浒传</router-link>
+                    </div>
+                    <a class="head-right">
+                      <span class="right-button">更多</span>
+                    </a>
+                  </div>
+                  <div class="recommend-content">
+                    <ul>
+                      <li class="albums"
+                          v-for="(item, index) in albumsClass_3"
+                          :key="index">
+                        <div class="albums-wrapper">
+                          <div class="wrapper-card">
+                            <router-link class="picture" to="section">
+                              <img :src="item.image">
+                              <div class="albums-cover">
+                                <i class="icon-ic_play" @click.stop.prevent="play"></i>
+                              </div>
+                              <p class="albums-plays">
+                                <i class="icon-earphone xuicon xuicon-erji EV"></i>
+                                {{item.plays}}w
+                              </p>
+                            </router-link>
+                          </div>
+                          <router-link class="bookname" to="section">
+                            <span>{{item.name}}</span>
+                          </router-link>
+                          <router-link class="uper" to="personal">
+                            <span>by:&nbsp;&nbsp;{{item.uper}}</span>
+                          </router-link>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="content-albums">
+              <div class="albums-class">
+                <div class="albums-list">
+                  <div class="albums-head">
+                    <h2 class="head-title">人文</h2>
+                    <div class="head-title_sub">
+                      <router-link class="sub" to="category">红楼梦</router-link>
+                      <router-link class="sub" to="category">马未都</router-link>
+                      <router-link class="sub" to="category">道德经</router-link>
+                      <router-link class="sub" to="category">易经</router-link>
+                      <router-link class="sub" to="category">鬼谷子</router-link>
+                      <router-link class="sub" to="category">论语</router-link>
+                      <router-link class="sub" to="category">佛经</router-link>
+                    </div>
+                    <a class="head-right">
+                      <span class="right-button">更多</span>
+                    </a>
+                  </div>
+                  <div class="recommend-content">
+                    <ul>
+                      <li class="albums"
+                          v-for="(item, index) in albumsClass_4"
+                          :key="index">
+                        <div class="albums-wrapper">
+                          <div class="wrapper-card">
+                            <router-link class="picture" to="section">
+                              <img :src="item.image">
+                              <div class="albums-cover">
+                                <i class="icon-ic_play" @click.stop.prevent="play"></i>
+                              </div>
+                              <p class="albums-plays">
+                                <i class="icon-earphone xuicon xuicon-erji EV"></i>
+                                {{item.plays}}w
+                              </p>
+                            </router-link>
+                          </div>
+                          <router-link class="bookname" to="section">
+                            <span>{{item.name}}</span>
+                          </router-link>
+                          <router-link class="uper" to="personal">
+                            <span>by:&nbsp;&nbsp;{{item.uper}}</span>
+                          </router-link>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="content-albums">
+              <div class="albums-class">
+                <div class="albums-list">
+                  <div class="albums-head">
+                    <h2 class="head-title">音乐</h2>
+                    <div class="head-title_sub">
+                      <router-link class="sub" to="category">抖音歌曲</router-link>
+                      <router-link class="sub" to="category">网络流行歌曲</router-link>
+                      <router-link class="sub" to="category">钢琴八级考级曲</router-link>
+                      <router-link class="sub" to="category">西班牙舞曲</router-link>
+                      <router-link class="sub" to="category">古装剧</router-link>
+                      <router-link class="sub" to="category">抖音</router-link>
+                      <router-link class="sub" to="category">黄家驹歌曲</router-link>
+                    </div>
+                    <a class="head-right">
+                      <span class="right-button">更多</span>
+                    </a>
+                  </div>
+                  <div class="recommend-content">
+                    <ul>
+                      <li class="albums"
+                          v-for="(item, index) in albumsClass_5"
+                          :key="index">
+                        <div class="albums-wrapper">
+                          <div class="wrapper-card">
+                            <router-link class="picture" to="section">
+                              <img :src="item.image">
+                              <div class="albums-cover">
+                                <i class="icon-ic_play" @click.stop.prevent="play"></i>
+                              </div>
+                              <p class="albums-plays">
+                                <i class="icon-earphone xuicon xuicon-erji EV"></i>
+                                {{item.plays}}w
+                              </p>
+                            </router-link>
+                          </div>
+                          <router-link class="bookname" to="section">
+                            <span>{{item.name}}</span>
+                          </router-link>
+                          <router-link class="uper" to="personal">
+                            <span>by:&nbsp;&nbsp;{{item.uper}}</span>
+                          </router-link>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="content-albums">
+              <div class="albums-class">
+                <div class="albums-list">
+                  <div class="albums-head">
+                    <h2 class="head-title">娱乐</h2>
+                    <a class="head-right">
+                      <span class="right-button">更多</span>
+                    </a>
+                  </div>
+                  <div class="recommend-content">
+                    <ul>
+                      <li class="albums"
+                          v-for="(item, index) in albumsClass_6"
+                          :key="index">
+                        <div class="albums-wrapper">
+                          <div class="wrapper-card">
+                            <router-link class="picture" to="section">
+                              <img :src="item.image">
+                              <div class="albums-cover">
+                                <i class="icon-ic_play" @click.stop.prevent="play"></i>
+                              </div>
+                              <p class="albums-plays">
+                                <i class="icon-earphone xuicon xuicon-erji EV"></i>
+                                {{item.plays}}w
+                              </p>
+                            </router-link>
+                          </div>
+                          <router-link class="bookname" to="section">
+                            <span>{{item.name}}</span>
+                          </router-link>
+                          <router-link class="uper" to="personal">
+                            <span>by:&nbsp;&nbsp;{{item.uper}}</span>
+                          </router-link>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-          <div class="download-app zTry">
-            <div class="card-app">
-              <div class="card-list-head">
-                <h3>下载APP</h3>
+          <div class="layout-right">
+            <div class="layout-content">
+              <div class="user-card zTry"
+                  v-if="!login">
+                <div class="card-content">
+                  <img src="../assets/bg_684491a.png">
+                  <div class="card-head">
+                    <img src="../assets/default_9c0f537.png">
+                    <div class="uc-head-title">
+                      <p>登陆一下，让我了解你</p>
+                    </div>
+                  </div>
+                  <div class="card-login">
+                    <div class="cl-wrap">
+                      <a class="login-btn"
+                        @click="showLogin">登录</a>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div class="qr-card">
-                <div class="card-img">
-                  <img src="../assets/QRCode_c35aacf.png">
+              <div class="everyday zTry">
+                <div class="everyday-content">
+                  <p class="content-title">每日必听</p>
+                  <div class="content-date">
+                    <p class="date-month">{{month}}</p>
+                    <p class="date-day">{{day}}</p>
+                  </div>
+                </div>
+              </div>
+              <div class="recommend-list zTry">
+                <div class="reco-cont">
+                  <div class="reco-head">
+                    <div class="reco-head-title">
+                      <h3 class>听单推荐</h3>
+                      <a class="reco-head-more">更多 ></a>
+                    </div>
+                  </div>
+                  <div class="reco-cover">
+                    <a class="cover-music">
+                      <div class="cover-music-pic">
+                        <img src="../assets/pic.png">
+                      </div>
+                      <p class="cover-music-mes">音乐星球Vol.12 这些歌手，开口就让人陶醉</p>
+                    </a>
+                  </div>
+                  <div class="reco-main">
+                    <ul>
+                      <li class="reco-main-albums"
+                          v-for="(item, index) in listenRecommend"
+                          :key="index">
+                        <router-link class="albums-mes" to="section">
+                          <div class="alb-mes-pic">
+                            <img :src="item.image">
+                            <div class="albums-cover">
+                              <i class="icon-ic_play" @click.stop.prevent="play"></i>
+                            </div>
+                          </div>
+                          <div class="alb-description">
+                            <h6>{{item.description}}</h6>
+                            <p>{{item.num}}专辑</p>
+                          </div>
+                        </router-link>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div class="card-wrap zTry"
+                  v-for="(item, index) in everdayRecommend"
+                  :key="index"
+                  v-if="index !== 3">
+                <div class="card-content">
+                  <div class="card-list-head">
+                    <h3>
+                      <i class="tu1"
+                        width="16px"
+                        height="16px"></i>
+                      {{item.title}}
+                    </h3>
+                  </div>
+                  <div class="card-cont-list">
+                    <div class="card-cont-list-item"
+                        v-for="(sub, index) in everdayRecommend"
+                        :key="index"
+                        :class="{ topclean: index === 0 }">
+                      <div class="item-icon">
+                        <svg id="icon-ic_play_gray"
+                            viewBox="0 0 1024 1024"
+                            width="14px"
+                            height="14px">
+                          <path d="M512 512m-512 0a512 512 0 1 0 1024 0 512 512 0 1 0-1024 0Z"
+                                fill="#E8E8E8"></path>
+                          <path d="M460.8 307.2l243.712 153.6c28.672 18.432 36.864 55.296 18.432 83.968-4.096 8.192-12.288 14.336-18.432 18.432L460.8 716.8c-28.672 18.432-67.584 10.24-83.968-18.432-6.144-10.24-10.24-20.48-10.24-32.768v-307.2c0-34.816 26.624-61.44 61.44-61.44 12.288 0 22.528 4.096 32.768 10.24z"
+                                fill="#CCCCCC"></path>
+                        </svg>
+                      </div>
+                      <a class="item-desc">{{sub.description}}</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="download-app zTry">
+                <div class="card-app">
+                  <div class="card-list-head">
+                    <h3>下载APP</h3>
+                  </div>
+                  <div class="qr-card">
+                    <div class="card-img">
+                      <img src="../assets/QRCode_c35aacf.png">
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </main>
   </div>
 </template>
 
@@ -550,6 +552,7 @@ export default {
       day: '',
       isShow: false,
       ID: '',
+      ip: [],
     }
   },
   created () {
@@ -669,12 +672,20 @@ export default {
       if(!this.$store.state.callPlay)
       this.play()
     }
+  },
+  mounted () {
+    console.log(this.ip.length === 0)
+    console.log(this.ip === 'null')
   }
 }
 </script>
 
 <style lang="scss" rel="stylesheet/scss">
 // scoped 慎用，给每个类添加不同的ID
+.main {
+  min-height: 500px;
+}
+
 .category-wrap {
   width: 1080px;
   display: block;
