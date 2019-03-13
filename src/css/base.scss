@@ -1,0 +1,234 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: -apple-system,BlinkMacSystemFont,PingFangSC-Regular,"PingFang SC","Microsoft YaHei","Helvetica Neue",Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing: antialiased;
+    background-color: #f3f4f5;
+    font-size: 14px;
+    color: #40404c;
+}
+
+ul {
+  list-style: none;
+}
+
+a {
+    color: #40404c;
+    background-color: transparent;
+    text-decoration: none;
+    outline: 0;
+    cursor: pointer;
+    &:hover {
+      color: #f86442;
+    }
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+.clearfix:after {
+  content: '';
+  display: block;
+  clear: both;
+  visibility: hidden;
+  font-size: 0;
+  height: 0;
+}
+
+.mgb20 {
+  margin-bottom: 20px;
+}
+.category-title:before, .sub-category-title:before {
+    content: '';
+    position: absolute;
+    display: inline-block;
+    width: 15px;
+    height: 3px;
+    left: calc(50% - 7.5px);
+    bottom: -3px;
+    border-radius: 6px;
+}
+
+
+.picture:before {
+    content: '';
+    position: absolute;
+    width: 104%;
+    height: 104%;
+    top: -2px;
+    left: -4px;
+    background-size: 104%;
+    z-index: 10;
+
+}
+
+.zTry {
+    margin-bottom: 20px;
+    background-color: #fff;
+}
+
+
+.bookname {
+    font-weight: 700;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    margin: 6px 0 3px;
+    line-height: 1.4;
+    max-width: 140px;
+    display: block;
+  }
+  
+  .uper {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    display: inline-block;
+    max-width: 100%;
+    font-size: 14px;
+    line-height: 1.4;
+    color: #a3a3ac;
+  }
+
+.card-cont-list-item .item-desc:hover, .albums-wrapper .uper:hover, .bookname:hover, .albums-class .albums-list .albums-head .head-right:hover,
+ .top .nav .nav-icon:hover .x-icon, .reco-head-more:hover, .recommend .albums-head .head-right:hover, .albums-mes:hover, .index-page .category-title:hover,
+ .index-page .entry-t1:hover,.index-page .entry-t2:hover, .category-hotword .category-hotword-wrapper .list .sub-name:hover,.subject-list .subject-list-item:hover,
+ .player-body-text:hover { 
+    color: #f86422;
+}
+
+.layout-right .card-login .login-btn:hover{
+    background-image: linear-gradient(90deg,#ffa381 1%,#ff8063 99%);
+}
+
+#icon-ic_play_gray:hover path,
+#icon-quanjubofangqi-suoding:hover path,
+#icon-quanjubofangqi-shangyiqu:hover path,
+ #icon-quanjubofangqi-bofang:hover path,
+ #icon-quanjubofangqi-xiayiqu:hover path,
+ #icon-quanjubofangqi-dianzan:hover path,
+ #icon-quanjubofangqi-xiazai:hover path,
+ #icon-quanjubofangqi-fenxiang:hover path,
+ #icon-quanjubofangqi-yinliang:hover path,
+ #icon-quanjubofangqi-xunhuan:hover path,
+ #icon-quanjubofangqi-bofangliebiao:hover path
+ {
+    fill: #f86422;
+}
+
+#icon-ic_play_gray:hover path:nth-child(2) {
+    fill: #ffffff;
+  }
+
+  
+.albums {
+    display: inline-block;
+    margin-left: 20px;
+    .albums-wrapper {
+      position: relative;
+      width: 140px;
+      height: 190px;
+      .wrapper-card {
+        position: relative;
+        width: 140px;
+        height: 140px;
+        .picture {
+          position: relative;
+          width: 100%;
+          height: 100%;
+          display: inline-block;
+          box-shadow: 0 1px 3px #a0a0a0;
+          overflow: hidden;
+          cursor: pointer;
+          z-index: 1;
+        }
+      }
+    }
+  }
+  
+  .albums-plays {
+    position: absolute;
+    bottom: 0;
+    left: 0px;
+    width: 130px;
+    padding: 2px 5px;
+    text-align: right;
+    color: #fff;
+    font-weight: lighter;
+    font-size: 12px;
+    z-index: 1;
+    background-image: linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0) 20%,
+      rgba(0, 0, 0, 0.4) 80%
+    );
+    background-image: -webkit-gradient(
+      linear,
+      left top,
+      right top,
+      color-stop(20%, rgba(0, 0, 0, 0)),
+      color-stop(80%, rgba(0, 0, 0, 0.4))
+    );
+    background-image: -webkit-linear-gradient(
+      left,
+      rgba(0, 0, 0, 0) 20%,
+      rgba(0, 0, 0, 0.4) 80%
+    );
+  }
+  
+  .EV {
+    font-size: 14px;
+    margin-right: 5px;
+    vertical-align: -1px;
+    margin-top: 1px;
+  }
+
+  .main-page {
+    display: block;
+    width: 1080px;
+    margin: 20px auto 0;
+    min-height: 260px;
+  }
+
+  .xui-btn {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+    font-size: 16px;
+    height: 35px;
+    font-weight: 400;
+    text-align: center;
+    cursor: pointer;
+    padding: 0 15px;
+    border-radius: 4px;
+    border: 1px solid transparent;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-transition: all .2s ease;
+    -o-transition: all .2s ease;
+    transition: all .2s ease;
+    color: #f86442;
+    background-color: #fff;
+    border-color: #e8e8e8;
+}
+
+.xui-card {
+  font-family: -apple-system,BlinkMacSystemFont,PingFangSC-Regular,"PingFang SC","Microsoft YaHei","Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size: 14px;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  transition: all .2s;
+  background: #fff;
+}
