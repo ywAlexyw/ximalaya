@@ -1,7 +1,9 @@
 <template>
   <div id="app">
     <Top/>
-    <router-view/>
+    <div class="min-height">
+      <router-view/>
+    </div>
     <FloatList/>
     <Footer/>
     <Player/>
@@ -48,5 +50,9 @@ export default {
 
 #nav a.router-link-exact-active {
   color: #42b983;
+}
+
+.min-height {
+  min-height: 1000px;
 }
 </style>
