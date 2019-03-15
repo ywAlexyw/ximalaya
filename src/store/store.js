@@ -10,7 +10,6 @@ const store = new Vuex.Store({
   state: {
     isShowLogin: false,
     array: [],
-    search: '',
     isShowRegister: false,
     num: '',
     setMidNum: 15,
@@ -23,8 +22,7 @@ const store = new Vuex.Store({
       state.isShowLogin = true
     },
     searchWD (state, payload) {
-      state.search = true
-      this.wd = payload
+      state.wd = payload
     },
     showRegister (state) {
       state.isShowRegister = !state.isShowRegister

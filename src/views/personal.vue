@@ -1,5 +1,5 @@
 <template>
-    <main class="main">
+    <main class="main-page">
         <div class="personal-contnet">
             <div class="one-part">
                 <div class="one-part-bg">
@@ -135,12 +135,6 @@
 </template>
 
 <style lang="scss" rel="stylesheet/scss">
-.main {
-  display: block;
-  width: 1080px;
-  margin: 20px auto 0;
-  min-height: 260px;
-}
 .one-part-bg {
   position: absolute;
   z-index: 0;

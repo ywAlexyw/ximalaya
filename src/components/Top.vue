@@ -8,29 +8,35 @@
             <div class="heard-left">
                   <a class="nav-n1 nav-on" href="/">
                       <p ref="nav_active" @mouseenter="activeMove(0)" @mouseleave="activeMove(navActiveIndex)">发现</p>
-                      <div class="header-sub-category-wrapper" v-if="login && onIndex">
+                      <div class="header-sub-category-wrapper" v-if="onIndex">
                         <div class="header-category-item">
                           <div class="sub-category" v-for="(item,index) in category" :key="index">
-                            <h4 class="sub-category-title" to="category" :class="item.id">{{item.title}}</h4>
-                            <div class="category-content-index TP">
-                              <span class="name" v-for="(sub, index) in item.content" :key="index" v-if="index < 6">
-                                <a>{{sub.name}}</a>
-                              </span>
-                            </div>
+                            <router-link to="category">
+                              <h4 class="sub-category-title" :class="item.id">{{item.title}}</h4>
+                              <div class="category-content-index TP">
+                                <template v-for="(sub, index) in item.content">
+                                  <span class="name"  :key="index" v-if="index < 6">
+                                    <router-link to="category">{{sub.name}}</router-link>
+                                  </span>
+                                </template>
+                              </div>
+                            </router-link>
                           </div>
                           <div class="sub-category">
-                            <h4 class="sub-category-title TS" to="category">特色</h4>
-                            <div class="category-content-index TP">
-                              <span class="name">
-                                <a>广播剧</a>
-                              </span>
-                              <span class="name">
-                                <a>电台</a>
-                              </span>
-                              <span class="name">
-                                <a>汽车</a>
-                              </span>
-                            </div>
+                            <router-link to="category">
+                              <h4 class="sub-category-title TS" to="category">特色</h4>
+                              <div class="category-content-index TP">
+                                <span class="name">
+                                  <router-link to="category">广播剧</router-link>
+                                </span>
+                                <span class="name">
+                                  <router-link to="category">电台</router-link>
+                                </span>
+                                <span class="name">
+                                  <router-link to="category">汽车</router-link>
+                                </span>
+                              </div>
+                            </router-link>
                           </div>
                         </div>
                       </div>
@@ -89,7 +95,7 @@
 </template>
 
 <script>
-import { getAlbums, getTopNav, getCategory } from '@/js/request'
+import { getAlbums, getCategory } from '@/js/request'
 import Cookies from 'js-cookie'
 import '@/css/navCategory.scss'
 
@@ -100,7 +106,6 @@ export default {
       category: [],
       content: [],
       recommendList: [],
-      topNav: [],
       showSignout: '',
       navActiveIndex: 0,
       navElList: [],
@@ -154,9 +159,6 @@ export default {
       getAlbums().then(res => {
         this.recommendList = res.data.recommendList
       })
-      getTopNav().then(res => {
-        this.topNav = res.data.topNav
-      })
     },
     signout () {
       this.$router.push({
@@ -184,16 +186,11 @@ export default {
     }
   },
   watch: {
-    '$store.state.user.login' () {
-      if (this.login === true) {
-        this.navElList[0].classList.add('header-category-wrapper')
-      }
-    },
     $route (to, from) {
       if (to.path === '/personal') {
         this.setNavActive(this.navElList[1])
       }
-      if (to.path === '/') {
+      if (to.path === '/' || to.path === '/category') {
         this.setNavActive(this.navElList[0])
         this.$refs.nav_active.classList.remove('nav_active')
         this.onIndex = false

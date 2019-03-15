@@ -25,7 +25,7 @@
 </template>
 <script>
 import Card from './Card'
-import {getSection} from '@/js/request'
+import { getSection } from '@/js/request'
 import { musicList } from '@/js/defaults'
 
 export default {
@@ -74,8 +74,7 @@ export default {
     margin-top: -4px;
   }
   &-list li:nth-child(n+2) {
-    
-      border-top: 1px dashed #e8e8e8;
+    border-top: 1px dashed #e8e8e8;
   }
   &-item {
     display: flex;

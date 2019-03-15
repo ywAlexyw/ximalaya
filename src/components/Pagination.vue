@@ -1,34 +1,36 @@
 <template>
   <div class="pagination">
     <nav class="pagination-nav">
-      <ul class="pagination-page">{{getNum}}
-        <li class="page-item" v-if="pageNum != 1">
+      <ul class="pagination-page">
+        <li class="page-item" v-if="pageNum !== 1">
           <a class="btn-prev page-link"
-              :class="{disabled: pageNum == 1}"
+              :class="{disabled: pageNum === 1}"
               @click="turn(pageNum - 1)">
           </a>
-        </li>  
-        <li class="page-item"
-            v-for="(item, index) in pageList"
-            :key="index"
-            :class="{'active': pageNum == item, 'sign': item == '...'}"
-            @click="turn(item)"
-            v-if="pageCount > 1">
-          <a class="page-link"
-             href="#">
-            <span>{{item}}</span>
-          </a>
         </li>
-        <li class="page-item" v-if="pageNum != pageCount">
-          <a class="btn-next page-link"
-              :class="{disabled: pageNum == pageCount}"
-              @click="turn(pageNum + 1)">
-          </a>
-        </li>
+        <template v-if="pageCount > 1">
+          <li class="page-item"
+              v-for="(item, index) in pageList"
+              :key="index"
+              :class="{'active': pageNum == item, 'sign': item == '...'}"
+              @click="turn(item)"
+              >
+            <a class="page-link"
+              href="#">
+              <span>{{item}}</span>
+            </a>
+          </li>
+          <li class="page-item" v-if="pageNum != pageCount">
+            <a class="btn-next page-link"
+                :class="{disabled: pageNum == pageCount}"
+                @click="turn(pageNum + 1)">
+            </a>
+          </li>
+        </template>
       </ul>
       <div class="quick-jump">
         <form>
-          <input class="control-input" v-model="num" 
+          <input class="control-input" v-model="num"
                  type="number"
                  placeholder="请输入页码">
           <button class="qj-btn" @click="turn(num)" :class="{btn_disabled: disabled}">跳转</button>
@@ -39,21 +41,19 @@
 </template>
 
 <script>
-import { getSection } from '@/js/request'
-import '@/js/pager.js'
 export default {
-  data() {
+  data () {
     return {
       pageNum: '',
       paginationLength: 9,
       pageCount: '',
       pageList: [],
-      num:''
+      num: ''
     }
   },
   computed: {
     disabled () {
-      if(this.num === ''|| this.pageNum === parseInt(this.num) || this.num < 1 || this.num > this.pageCount) {
+      if (this.num === '' || this.pageNum === parseInt(this.num) || this.num < 1 || this.num > this.pageCount) {
         this.$nextTick(() => {
           var btn = document.getElementsByClassName('qj-btn')[0]
           btn.disabled = true
@@ -67,28 +67,12 @@ export default {
         })
         return false
       }
-    },
-    getNum () {
-      let k = 0
-      let num = this.$store.state.num
-      for (var i = 0; i < num; i++) {
-        if (i % 30 == 0) {
-          k++
-          this.pageCount = k
-        }
-      }
-      this.pageCount > 0 && this.init()
-    }
-  },
-  watch: {
-    pageCount () {
-      this.init()
     }
   },
   methods: {
     turn (index) {
       window.scrollTo(0, 800)
-      if (index == '...') {
+      if (index === '...') {
         this.pageNum = this.pageNum + 5
         this.$store.commit('setMidNum', this.pageNum)
       }
@@ -101,6 +85,7 @@ export default {
       this.num = ''
     },
     init () {
+      /* eslint-disable */
       let pageCount = this.pageCount
       this.pageNum = 1
       if (pageCount <= this.paginationLength) {
@@ -130,6 +115,22 @@ export default {
             this.pageList = pageList_2
           }
         })
+      }
+      /* eslint-enable */
+    }
+  },
+  watch: {
+    '$store.state.num' (val) {
+      if (val !== '') {
+        var k = 0
+        let num = this.$store.state.num
+        for (let i = 0; i < num; i++) {
+          if (i % 30 === 0) {
+            k++
+            this.pageCount = k
+          }
+        }
+        this.pageCount > 0 && this.init()
       }
     }
   }

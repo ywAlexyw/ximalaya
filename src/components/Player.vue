@@ -124,16 +124,16 @@
 import { musicList } from '@/js/defaults'
 
 export default {
-  data() {
+  data () {
     return {
-      show:true,
+      show: true
     }
   },
   computed: {
     login () {
       return this.$store.state.user.login
     },
-    playing() {
+    playing () {
       return this.$store.state.player.playing
     },
     audio () {
@@ -147,15 +147,14 @@ export default {
     }
   },
   methods: {
-    showLogin() {
+    showLogin () {
       if (!this.login) {
-      this.$store.commit("showLogin")
+        this.$store.commit('showLogin')
       }
     },
     clickPlay () {
-      if(!this.audio.id) {
+      if (!this.audio.id) {
         this.$store.commit('play', 'default')
-        
       } else {
         this.$store.commit('play')
       }
@@ -163,7 +162,7 @@ export default {
     clickPause () {
       this.$store.commit('pause')
     },
-    clickNext() {
+    clickNext () {
       let audioIndex
       musicList.find((item, index) => {
         if (item.id === this.audio.id) {
@@ -173,29 +172,29 @@ export default {
       const target = musicList[audioIndex === (musicList.length - 1) ? 0 : audioIndex + 1]
       this.$store.commit('play', target)
     },
-    clickPrev() {
+    clickPrev () {
       let audioIndex
       musicList.find((item, index) => {
-        if(item.id === this.audio.id) {
+        if (item.id === this.audio.id) {
           audioIndex = index
         }
       })
-      const target = musicList[audioIndex === 0 ? (musicList.length - 1) : (audioIndex - 1) ]
+      const target = musicList[audioIndex === 0 ? (musicList.length - 1) : (audioIndex - 1)]
       this.$store.commit('play', target)
     },
-    pull() {
-      var player = document.getElementsByClassName("player")[0]
-      setTimeout(function(){
-        player.style.bottom = "-50px"
-      },2000) 
+    pull () {
+      var player = document.getElementsByClassName('player')[0]
+      setTimeout(function () {
+        player.style.bottom = '-50px'
+      }, 2000)
     },
-    push(el) {
-        var player = document.getElementsByClassName("player")[0]
-        player.style.bottom = "0px"
+    push (el) {
+      var player = document.getElementsByClassName('player')[0]
+      player.style.bottom = '0px'
     },
-    lock() {
-      var player = document.getElementsByClassName("player")[0]
-      if(this.show === true) {
+    lock () {
+      var player = document.getElementsByClassName('player')[0]
+      if (this.show === true) {
         player.classList.remove('push')
       } else {
         player.classList.add('push')
@@ -207,12 +206,12 @@ export default {
         var playerProgress = document.getElementsByClassName('player-progress_cur')[0]
         var dianIcon = document.getElementById('dian-icon')
         let x = el.clientX - 331
-        let changWidth =  x / 490
+        let changWidth = x / 490
         let currentTime = this.allTime.split(':')
-        let place = (parseInt(currentTime[0]*60) + parseInt(currentTime[1])) * changWidth
+        let place = (parseInt(currentTime[0] * 60) + parseInt(currentTime[1])) * changWidth
         this.$store.commit('getChangeTime', place)
         playerProgress.style.width = x + 'px'
-        dianIcon.style.left = x-8 + 'px'
+        dianIcon.style.left = x - 8 + 'px'
       }
     }
   },
@@ -222,15 +221,15 @@ export default {
       var dianIcon = document.getElementById('dian-icon')
       let current = this.currentTime.split(':')
       let allTime = this.allTime.split(':')
-      let changWidth = (parseInt(current[0]*60) +  parseInt(current[1])) / (parseInt(allTime[0]*60) + parseInt(allTime[1]))
-      playerProgress.style.width = changWidth*100 + '%'
-      dianIcon.style.left = changWidth*490 - 5 + 'px'
-      if (this.$store.state.player.currentTime === this.$store.state.player.allTime && this.allTime !== '' ) {
+      let changWidth = (parseInt(current[0] * 60) + parseInt(current[1])) / (parseInt(allTime[0] * 60) + parseInt(allTime[1]))
+      playerProgress.style.width = changWidth * 100 + '%'
+      dianIcon.style.left = changWidth * 490 - 5 + 'px'
+      if (this.$store.state.player.currentTime === this.$store.state.player.allTime && this.allTime !== '') {
         this.clickNext()
       }
     }
   }
-};
+}
 </script>
 
 <style lang="scss" rel="stylesheet/scss">
@@ -371,7 +370,7 @@ export default {
   height: 100%;
   width: 0%;
   background-color: #f86442;
-  // z-index: 1; 
+  // z-index: 1;
 }
 
 #dian-icon {

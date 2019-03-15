@@ -1,5 +1,5 @@
 <template>
-    <main class="category-content">
+    <main class="main-page">
         <div class="section">
             <div class="breadcrumb">
                 <a href="/">首页</a>
@@ -9,10 +9,11 @@
                 <h1 class="title">热门分类</h1>
             </div>
             <div class="category-hotword">
-                <div class="category-hotword-wrapper" v-for="(item, index) in recommendType" :key="index" v-if="index < 2">
+              <template v-for="(item, index) in recommendType">
+                <div class="category-hotword-wrapper" :key="index" v-if="index < 2">
                     <div class="hotword">
                         <a href="/">
-                            <h2>
+                            <h2 class="H2">
                                 <img :src="item.image">{{item.name}}
                             </h2>
                         </a>
@@ -21,15 +22,17 @@
                         <a class="sub-name" v-for="(sub,index) in item.list" :key="index">{{sub.name}}</a>
                     </div>
                 </div>
+              </template>
             </div>
             <div class="plates">
-                <div class="category-plate" v-for="(item, index) in recommendType" :key="index" v-if="index > 1">
-                    <h2 class="title" :class="item.id" >{{item.name}}</h2>
+              <template v-for="(item, index) in recommendType">
+                <div class="category-plate" :key="index" v-if="index > 1">
+                    <h2 class="title H2" :class="item.id" >{{item.name}}</h2>
                     <div class="body">
                         <div class="subject" v-for="(sub, index) in item.list" :key="index" >
                             <div class="subject-title">
                                 <a href="/">
-                                    <h2>
+                                    <h2  class="H2">
                                         <img :src="sub.image">{{sub.name}}
                                     </h2>
                                 </a>
@@ -40,6 +43,7 @@
                         </div>
                     </div>
                 </div>
+              </template>
             </div>
         </div>
     </main>
@@ -69,18 +73,13 @@ export default {
 </script>
 
 <style lang="scss" rel="stylesheet/scss">
-.category-content {
-  display: block;
-  width: 1080px;
-  margin: 20px auto 0;
-  min-height: 260px;
+.main-page {
   .breadcrumb {
     font-size: 12px;
     color: #72727b;
     margin: 20px 0;
   }
   .category-header {
-    // width: 100%;
     padding: 15px 20px 0;
     margin-top: 20px;
     background: #fff;
@@ -133,6 +132,11 @@ export default {
       }
     }
   }
+}
+
+.H2 {
+  font-weight: 400;
+  font-size: 20px;
 }
 
 .hotword h2 {

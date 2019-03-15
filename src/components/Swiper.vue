@@ -23,7 +23,8 @@ import Swiper from 'swiper'
 
 export default {
   mounted () {
-    var swiper = new Swiper('#certify .swiper-container', {
+    /* eslint-disable no-new */
+    new Swiper('#certify .swiper-container', {
       watchSlidesProgress: true,
       slidesPerView: 'auto',
       centeredSlides: true,
@@ -72,6 +73,7 @@ export default {
         }
       }
     })
+    /* eslint-enable no-new */
   }
 }
 
@@ -161,6 +163,7 @@ export default {
   height: 300px;
   align-items: center;
   opacity: 0!important;
+  transform: all 5s
 }
 
 .swiper-slide-active {

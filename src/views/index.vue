@@ -23,46 +23,43 @@
                             to="category"
                             :class="item.id">{{item.title}}</router-link>
                 <div class="category-content-index OP">
-                  <span class="name"
-                        v-for="(sub, index) in item.content"
-                        :key="index"
-                        v-if="index < 6">
-                    <router-link v-if="item.content.length > 6 && index < 5" to="category">{{sub.name}}</router-link>
-                    <router-link v-if="item.content.length < 7" to="category">{{sub.name}}</router-link>
-                    <a v-if="item.content.length > 6 && index == 5"
-                      @mouseover="showMore(item.id)"
-                      @mouseout="showMore(item.id)" to="category">更多></a>
-                  </span>
+                  <template v-for="(sub, index) in item.content">
+                    <span class="name" :key="index" v-if="index < 6">
+                      <router-link v-if="item.content.length > 6 && index < 5" to="category">{{sub.name}}</router-link>
+                      <router-link v-if="item.content.length < 7" to="category">{{sub.name}}</router-link>
+                      <a v-if="item.content.length > 6 && index == 5"
+                        @mouseover="showMore(item.id)"
+                        @mouseout="showMore(item.id)" to="category">更多></a>
+                    </span>
+                  </template>
                 </div>
               </div>
-              <transition :name="item.id"
-                          v-for="(item,index) in category"
-                          :key="index"
-                          v-if="isShow && index < 2 && item.id == ID">
-                <div class="xui-popover"
-                    :class="item.name"
-                    @mouseover="isShow = true"
-                    @mouseout="isShow = false">
-                  <div class="xui-popover-content">
-                    <div class="xui-popover-arrow"></div>
-                    <div class="xui-popover-inner">
-                      <div class="xui-popover-inner-content">
-                        <div class="cateory-more">
-                          <router-link class="cateory-more-title"
-                                      to="category">进入{{item.title}} ></router-link>
-                          <div class="category-more-content">
-                            <span class="name"
-                                  v-for="(sub, index) in item.content"
-                                  :key="index"
-                                  v-if="index > 4">
-                              <router-link to="category">{{sub.name}}</router-link>
-                            </span>
+              <transition :name="item.id" v-for="(item,index) in category" :key="index">
+                <template v-if="isShow && index < 2 && item.id === ID">
+                  <div class="xui-popover"
+                      :class="item.name"
+                      @mouseover="isShow = true"
+                      @mouseout="isShow = false">
+                    <div class="xui-popover-content">
+                      <div class="xui-popover-arrow"></div>
+                      <div class="xui-popover-inner">
+                        <div class="xui-popover-inner-content">
+                          <div class="cateory-more">
+                            <router-link class="cateory-more-title"
+                                        to="category">进入{{item.title}} ></router-link>
+                            <div class="category-more-content">
+                              <template v-for="(sub, subIndex) in item.content">
+                                <span class="name" :key="subIndex" v-if="subIndex > 4">
+                                  <router-link to="category">{{sub.name}}</router-link>
+                                </span>
+                              </template>
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
+                </template>
               </transition>
             </div>
         </div>
@@ -82,31 +79,30 @@
                 </div>
                 <div class="recommend-content">
                   <ul>
-                    <li class="albums"
-                        v-for="item in recommendList"
-                        :key="item.id"
-                        v-if="item.id < 6">
-                      <div class="albums-wrapper">
-                        <div class="wrapper-card">
-                          <router-link class="picture" to="section">
-                            <img :src="item.image">
-                            <div class="albums-cover">
-                              <i class="icon-ic_play" @click.stop.prevent="play($event)"></i>
-                            </div>
-                            <p class="albums-plays">
-                              <i class="icon-earphone xuicon xuicon-erji EV"></i>
-                              {{item.plays}}w
-                            </p>
+                    <template v-for="item in recommendList">
+                      <li class="albums" :key="item.id" v-if="item.id < 6">
+                        <div class="albums-wrapper">
+                          <div class="wrapper-card">
+                            <router-link class="picture" to="section">
+                              <img :src="item.image">
+                              <div class="albums-cover">
+                                <i class="icon-ic_play" @click.stop.prevent="play($event)"></i>
+                              </div>
+                              <p class="albums-plays">
+                                <i class="icon-earphone xuicon xuicon-erji EV"></i>
+                                {{item.plays}}w
+                              </p>
+                            </router-link>
+                          </div>
+                          <router-link class="bookname" to="section">
+                            <span>{{item.name}}</span>
+                          </router-link>
+                          <router-link class="uper" to="personal">
+                            <span>by:&nbsp;&nbsp;{{item.uper}}</span>
                           </router-link>
                         </div>
-                        <router-link class="bookname" to="section">
-                          <span>{{item.name}}</span>
-                        </router-link>
-                        <router-link class="uper" to="personal">
-                          <span>by:&nbsp;&nbsp;{{item.uper}}</span>
-                        </router-link>
-                      </div>
-                    </li>
+                      </li>
+                    </template>
                   </ul>
                 </div>
               </div>
@@ -406,7 +402,7 @@
                   <div class="card-head">
                     <img src="../assets/default_9c0f537.png">
                     <div class="uc-head-title">
-                      <p>登陆一下，让我了解你</p>
+                      <p>登录一下，让我了解你</p>
                     </div>
                   </div>
                   <div class="card-login">
@@ -464,40 +460,41 @@
                   </div>
                 </div>
               </div>
-              <div class="card-wrap zTry"
-                  v-for="(item, index) in everdayRecommend"
-                  :key="index"
-                  v-if="index !== 3">
-                <div class="card-content">
-                  <div class="card-list-head">
-                    <h3>
-                      <i class="tu1"
-                        width="16px"
-                        height="16px"></i>
-                      {{item.title}}
-                    </h3>
-                  </div>
-                  <div class="card-cont-list">
-                    <div class="card-cont-list-item"
-                        v-for="(sub, index) in everdayRecommend"
-                        :key="index"
-                        :class="{ topclean: index === 0 }">
-                      <div class="item-icon">
-                        <svg id="icon-ic_play_gray"
-                            viewBox="0 0 1024 1024"
-                            width="14px"
-                            height="14px">
-                          <path d="M512 512m-512 0a512 512 0 1 0 1024 0 512 512 0 1 0-1024 0Z"
-                                fill="#E8E8E8"></path>
-                          <path d="M460.8 307.2l243.712 153.6c28.672 18.432 36.864 55.296 18.432 83.968-4.096 8.192-12.288 14.336-18.432 18.432L460.8 716.8c-28.672 18.432-67.584 10.24-83.968-18.432-6.144-10.24-10.24-20.48-10.24-32.768v-307.2c0-34.816 26.624-61.44 61.44-61.44 12.288 0 22.528 4.096 32.768 10.24z"
-                                fill="#CCCCCC"></path>
-                        </svg>
+              <template v-for="(item, index) in everdayRecommend">
+                <div class="card-wrap zTry" :key="index" v-if="index !== 3">
+                  <div class="card-content">
+                    <div class="card-list-head">
+                      <h3>
+                        <i class="tu1"
+                          width="16px"
+                          height="16px"></i>
+                        {{item.title}}
+                      </h3>
+                    </div>
+                    <div class="card-cont-list">
+                      <router-link to="/section">
+                      <div class="card-cont-list-item"
+                          v-for="(sub, index) in everdayRecommend"
+                          :key="index"
+                          :class="{ topclean: index === 0 }">
+                        <div class="item-icon">
+                          <svg id="icon-ic_play_gray"
+                              viewBox="0 0 1024 1024"
+                              width="14px"
+                              height="14px">
+                            <path d="M512 512m-512 0a512 512 0 1 0 1024 0 512 512 0 1 0-1024 0Z"
+                                  fill="#E8E8E8"></path>
+                            <path d="M460.8 307.2l243.712 153.6c28.672 18.432 36.864 55.296 18.432 83.968-4.096 8.192-12.288 14.336-18.432 18.432L460.8 716.8c-28.672 18.432-67.584 10.24-83.968-18.432-6.144-10.24-10.24-20.48-10.24-32.768v-307.2c0-34.816 26.624-61.44 61.44-61.44 12.288 0 22.528 4.096 32.768 10.24z"
+                                  fill="#CCCCCC"></path>
+                          </svg>
+                        </div>
+                        <p class="item-desc">{{sub.description}}</p>
                       </div>
-                      <a class="item-desc">{{sub.description}}</a>
+                      </router-link>
                     </div>
                   </div>
                 </div>
-              </div>
+              </template>
               <div class="download-app zTry">
                 <div class="card-app">
                   <div class="card-list-head">
@@ -522,7 +519,7 @@
 import Login from '@/components/Login'
 import Footer from '@/components/Footer'
 import FloatList from '@/components/FloatList'
-import { getCategory, getAlbums, getImage } from '@/js/request'
+import { getCategory, getAlbums } from '@/js/request'
 import 'swiper/dist/css/swiper.min.css'
 import 'swiper/dist/js/swiper.min.js'
 import Swiper from '@/components/Swiper'
@@ -552,7 +549,7 @@ export default {
       day: '',
       isShow: false,
       ID: '',
-      ip: [],
+      ip: []
     }
   },
   created () {
@@ -638,44 +635,37 @@ export default {
         this.everdayRecommend = res.data.everdayRecommend
       })
     },
-    play(el) {
+    play (el) {
       this.$store.commit('play', 'default')
       this.playing = true
-      var playing = document.getElementsByClassName("playing")[0]
-      if(typeof playing !== 'undefined' && !el.target.classList.contains('playing')) {
-        playing.classList.remove("playing")
-        el.target.classList.add("playing")
+      var playing = document.getElementsByClassName('playing')[0]
+      if (typeof playing !== 'undefined' && !el.target.classList.contains('playing')) {
+        playing.classList.remove('playing')
+        el.target.classList.add('playing')
         // console.log('切歌')
-      } else if(el.target.classList.contains('playing'))  {
+      } else if (el.target.classList.contains('playing')) {
         // console.log('暂停')
         this.$store.commit('pause')
-        el.target.classList.remove("playing")
-      }
-      else {
+        el.target.classList.remove('playing')
+      } else {
         // console.log('点击播放')
-        el.target.classList.add("playing")
+        el.target.classList.add('playing')
       }
     },
     pause () {
-      var playing = document.getElementsByClassName("playing")[0]
-      if(typeof playing !== 'undefined') {
-        playing.classList.remove("playing")
+      var playing = document.getElementsByClassName('playing')[0]
+      if (typeof playing !== 'undefined') {
+        playing.classList.remove('playing')
       }
-    },
+    }
   },
   watch: {
     '$store.state.player.playing' (val) {
-      if(!this.$store.state.player.playing)
-      this.pause()
+      if (!this.$store.state.player.playing) { this.pause() }
     },
     '$store.state.callPlay' () {
-      if(!this.$store.state.callPlay)
-      this.play()
+      if (!this.$store.state.callPlay) { this.play() }
     }
-  },
-  mounted () {
-    console.log(this.ip.length === 0)
-    console.log(this.ip === 'null')
   }
 }
 </script>
@@ -860,26 +850,6 @@ export default {
   background-color: #fff;
 }
 
-.title_1::before {
-  background-color: #a392ec;
-}
-
-.title_2::before {
-  background-color: #f4a6cb;
-}
-
-.title_3::before {
-  background-color: #f8d16c;
-}
-
-.title_4::before {
-  background-color: #7cc2ef;
-}
-
-.title_5::before {
-  background-color: #4dd298;
-}
-
 .albums:nth-child(5n + 1) {
   margin-left: 0;
 }
@@ -928,8 +898,8 @@ export default {
     img {
       position: relative;
       float: left;
-      width: 60px;
-      height: 60px;
+      width: 54px;
+      height: 54px;
       background-size: 100%;
       border-radius: 50%;
       border: 3px solid #f3f4f5;
@@ -1099,23 +1069,34 @@ export default {
 .qr-card {
   overflow: hidden;
   margin: 0 10px;
-  .card-cont-list-item {
-    margin: 20px 0;
-    overflow: hidden;
-    -o-text-overflow: ellipsis;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    .item-icon {
-      display: inline-block;
-      vertical-align: middle;
-      svg {
-        margin-right: 5px;
-      }
+}
+
+.card-cont-list-item {
+  margin: 20px 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  .item-desc {
+    display: inline-block;
+    color: #40404c;
+  }
+  .item-icon {
+    display: inline-block;
+    vertical-align: middle;
+    svg {
+      margin-right: 5px;
     }
   }
-  .topclean {
-    margin-top: 0;
-  }
+}
+
+.topclean {
+  margin-top: 0;
+}
+
+.card-cont-list-item:hover  .item-desc,
+.card-cont-list-item:hover  .item-icon, {
+  color: #f86422;
+  cursor: pointer;
 }
 
 .card-img {
@@ -1155,10 +1136,6 @@ export default {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
     background: #fff;
   }
-}
-
-.xui-popover:nth-child(2) {
-
 }
 
 .T1 {

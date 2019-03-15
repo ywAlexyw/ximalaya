@@ -1,11 +1,10 @@
 <template>
-    <div class="footer">
+    <footer class="footer">
         <div class="content">
             <div class="footer-nav">
                 <div class="nav-wrapper">
                     <div class="nav-item" v-for="(item, index) in navTitle" :key="index" :class="{ last: index === 3 }">
                         <p class="title">{{item.title}}</p>
-                        <!-- <img :src="item.url" alt=""> -->
                         <a v-for="(sub, index) in item.name" :key="index">{{sub.id}}</a>
                     </div>
                 </div>
@@ -63,7 +62,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </footer>
 </template>
 
 <script>
@@ -76,6 +75,7 @@
 // view - 包含关系  大-小
 // _ 分析状态 disable
 import { getFooter } from '@/js/request'
+
 export default {
   data () {
     return {
@@ -91,22 +91,6 @@ export default {
     this.getData()
   },
   methods: {
-    // getData() {
-    // this.navTitle = [
-    //     {
-    //         id: 1,
-    //         title: '水电费水电费',
-    //         url: 'https://s1.xmcdn.com/lib/xmweb/images/img_open_f8de94c.png'
-    //     },
-    //     {
-    //         id: 2,
-    //         title: '阿萨德群无热',
-    //         url: 'https://s1.xmcdn.com/lib/xmweb/images/img_A+_5ac7a3f.png'
-    //     }
-    // ]
-    // setTimeout(() => {
-    //     this.$set(this.navTitle, 1, { id: 3, title: '群殴如期无人', url: 'https://s1.xmcdn.com/lib/xmweb/images/img_inside_abb68ae.png'})
-    // }, 2000)
     getData () {
       getFooter().then(res => {
         this.navTitle = res.data.navTitle

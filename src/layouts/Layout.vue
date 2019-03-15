@@ -23,4 +23,3 @@
     float: left;
   }
 </style>
-

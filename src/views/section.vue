@@ -80,12 +80,15 @@
                 <ul>
                   <li class="sound-list-item"
                       v-for="(item, index) in sectionList"
-                      :key="index" @click="play(index)">{{getList}}
+                      :key="index" @click="play(index)">
                     <div class="sound-list-num icon-wrapper">{{item.id}}</div>
                     <div class="playingIcon icon-wrapper"  style="width: 14px; height: 14px">
                     </div>
                     <div class="text">{{item.name}}</div>
-                    <div class="operate">{{item.num}}w</div>
+                    <div class="plays">
+                      <i class="xuicon xuicon-erji1 _OO"></i>
+                      <div class="operate">{{item.num}}w</div>
+                    </div>
                     <span class="time">{{item.time}}</span>
                   </li>
                 </ul>
@@ -149,22 +152,21 @@
                   </div>
                   <div class="xui-card-body">
                     <ul class="general-list">
-                      <li class="general-list-item"
-                          v-for="(item, index) in albumsClass"
-                          :key="index"
-                          v-if="index < 4">
-                        <a class="item-link">
-                          <div class="box">
-                            <img :src="item.image">
-                          </div>
-                          <div class="gl-item-content">
-                            <h6 class="gl-item-content-title">{{item.name}}</h6>
-                            <p class="sub-title">
-                              <i class="xuicon xuicon-erji1 h2"></i>{{item.plays}}
-                            </p>
-                          </div>
-                        </a>
-                      </li>
+                      <template v-for="(item, index) in albumsClass">
+                        <li class="general-list-item" :key="index" v-if="index < 4">
+                          <a class="item-link">
+                            <div class="box">
+                              <img :src="item.image">
+                            </div>
+                            <div class="gl-item-content">
+                              <h6 class="gl-item-content-title">{{item.name}}</h6>
+                              <p class="sub-title">
+                                <i class="xuicon xuicon-erji1 h2"></i>{{item.plays}}
+                              </p>
+                            </div>
+                          </a>
+                        </li>
+                      </template>
                     </ul>
                   </div>
                 </div>
@@ -221,19 +223,6 @@ export default {
   computed: {
     playing () {
       return this.$store.state.player.playing
-    },
-    getList () {
-      this.midNum = this.$store.state.setMidNum
-      let list = []
-      for (var i = 0; i < this.section.length; i++) {
-        if (
-          this.midNum - 15 < this.section[i].id &&
-          this.section[i].id < this.midNum + 16
-        ) {
-          list.push(this.section[i])
-        }
-      }
-      this.sectionList = list
     }
   },
   methods: {
@@ -296,12 +285,27 @@ export default {
       this.intro.style.maxHeight = ''
       this.intro.style.height = ''
       this.allShow = !this.allShow
+    },
+    getList () {
+      this.midNum = this.$store.state.setMidNum
+      let list = []
+      for (var i = 0; i < this.section.length; i++) {
+        if (
+          this.midNum - 15 < this.section[i].id &&
+          this.section[i].id < this.midNum + 16
+        ) {
+          list.push(this.section[i])
+        }
+      }
+      this.sectionList = list
+    }
+  },
+  watch: {
+    '$store.state.setMidNum' (val) {
+      this.getList()
     }
   },
   mounted () {
-    getImage().then(res => {
-      this.imageSrc = res.data.imageList.src
-    }),
     this.intro = document.getElementById('intro')
     this.playingIcon = document.getElementsByClassName('playingIcon')
   }
@@ -530,9 +534,6 @@ export default {
   padding: 10px 0;
   height: 20.734px;
   border-bottom: 1px solid #e8e8e8;
-  // .sound-list-num {
-  //   display: inline-block;
-  // }
   .text {
     margin-left: 20px;
     display: inline-block;
@@ -543,11 +544,15 @@ export default {
     white-space: nowrap;
     overflow: hidden;
   }
-  .operate {
+  .plays {
     display: inline-block;
     margin-left: 176px;
     color: #a3a3ac;
     vertical-align: middle;
+    .operate {
+      display: inline-block;
+      margin-left: 5px;
+    }
   }
   .time {
     float: right;

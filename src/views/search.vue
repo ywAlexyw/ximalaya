@@ -1,7 +1,6 @@
 <template>
-  <main class="search-content">
-    <div class="search-result_search"
-         v-if="isShow">
+  <main class="main-page">
+    <div class="search-result_search">
       <p class="tip">
         喵，没有找到
         <span>{{WD}}</span>
@@ -9,80 +8,27 @@
       </p>
       <p class="recommend-content">推荐一些相关的专辑，希望你喜欢哦！</p>
     </div>
-    <div class="recommend-content SC"
-         v-if="!isShow">
-      <div class="SC-title">
-        '<span style="color: #f86422;">{{WD}}</span>' 相关的专辑
-      </div>
-      <ul>
-        <li class="albums"
-            v-for="(item, index) in array"
-            :key="index">
-          <div class="albums-wrapper">
-            <div class="wrapper-card">
-              <a class="picture">
-                <img src="../assets/wKgKl1vhb7Lz8e_OAAAbTdzU2Pw747.jpg">
-                <p class="albums-plays">
-                  <i class="icon-earphone xuicon xuicon-erji EV"></i>
-                  {{item.plays}}w
-                </p>
-              </a>
-            </div>
-            <a class="bookname"
-               style="color: #f86422; font-weight: 1;">
-              <span>{{item.name}}</span>
-            </a>
-            <a class="uper">
-              <span>by:&nbsp;&nbsp;{{item.uper}}</span>
-            </a>
-          </div>
-        </li>
-      </ul>
-    </div>
   </main>
 </template>
 
 <script>
-import { getAlbums } from '@/js/request'
 export default {
-  data () {
-    return {
-      recommendList: []
-    }
-  },
-  created () {
-    this.getData()
-  },
   computed: {
-    isShow () {
-      return this.$store.state.search
-    },
-    array () {
-      return this.$store.state.array
-    },
     WD () {
       return this.$route.query.wd
-    }
-  },
-  methods: {
-    getData () {
-      getAlbums().then(res => {
-        this.recommendList = res.data.recommendList
-      })
     }
   }
 }
 </script>
 
 <style lang="scss" rel="stylesheet/scss">
-.search-content {
+.main {
   padding-top: 10px;
   display: block;
   width: 1080px;
   margin: 20px auto 0;
   min-height: 260px;
   background-color: #fff;
-  //   text-align: center;
   .search-result_search {
     padding: 100px 0px;
     text-align: center;
