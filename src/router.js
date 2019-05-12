@@ -43,7 +43,10 @@ let router = new Router({
       component: album,
       name: 'album'
     }
-  ]
+  ],
+  scrollBehavior () {
+    return { x: 0, y: 0 }
+  }
 })
 
 export default router
