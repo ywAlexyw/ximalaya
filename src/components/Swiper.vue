@@ -9,9 +9,7 @@
         <li class="swiper-slide"><router-link to="/"><img src="http://imagev2.xmcdn.com/group51/M0B/21/00/wKgKmlvJRhLAvvgWAAFfI4eBIWo057.jpg!strip=1&quality=7&magick=jpg&op_type=5&upload_type=cover&name=large_pop&device_type=ios" /></router-link></li>
         <li class="swiper-slide"><router-link to="/"><img src="http://imagev2.xmcdn.com/group57/M01/59/B1/wKgLd1xT-nugkJhIAAIRfNNLeb0411.jpg!strip=1&quality=7&magick=jpg&op_type=5&upload_type=cover&name=large_pop&device_type=ios" /></router-link></li>
         <li class="swiper-slide"><router-link to="/"><img src="http://imagev2.xmcdn.com/group55/M09/3A/64/wKgLf1x403nDwY4dAAIQBbDmLf4948.jpg!strip=1&quality=7&magick=jpg&op_type=5&upload_type=cover&name=large_pop&device_type=ios" /></router-link></li>
-        <li class="swiper-slide"><router-link to="/"><img src="http://imagev2.xmcdn.com/group53/M0B/00/6E/wKgLfFxFX0mym5XoAAFbH5Dns-k323.png!strip=1&quality=7&magick=jpg&op_type=5&upload_type=cover&name=large_pop&device_type=ios" /></router-link></li>
-        <li class="swiper-slide"><router-link to="/"><img src="http://imagev2.xmcdn.com/group53/M0B/5B/AE/wKgLcVxJXc-w1FCpAAf-xAN_JWc976.png!strip=1&quality=7&magick=jpg&op_type=5&upload_type=cover&name=large_pop&device_type=ios" /></router-link></li>
-      </ul>
+        </ul>
     </div>
     <div class="swiper-button-prev"></div>
     <div class="swiper-button-next"></div>
@@ -35,33 +33,38 @@ export default {
         nextEl: '.swiper-button-next',
         prevEl: '.swiper-button-prev'
       },
-      pagination: {
-        el: '.swiper-pagination'
-      },
       on: {
         progress: function (progress) {
           for (var i = 0; i < this.slides.length; i++) {
             var slide = this.slides.eq(i)
             var slideProgress = this.slides[i].progress
-            var modify = 1
-            if (Math.abs(slideProgress) > 1) {
-              modify = (Math.abs(slideProgress) - 1) * 0.3 + 1
-            }
-            var translate = slideProgress * modify * 260
-            if (translate < 0) {
-              translate -= 550
+            var translate = slideProgress * 160
+            if (translate > 0) {
+              translate += 275
+              if (translate > 590) {
+                translate = translate + 600
+              }
+            } else if (translate < 0) {
+              translate += -425
+              if (translate < -590) {
+                translate = translate - 300
+              }
             }
             translate = translate + 'px'
             var scale = 1 - Math.abs(slideProgress) / 5
-            if (scale !== 1) {
-              scale = 0.8
-            }
             var zIndex = 999 - Math.abs(Math.round(10 * slideProgress))
+            if (scale !== 1) { scale = 0.8 }
             slide.transform('translateX(' + translate + ') scale(' + scale + ')')
             slide.css('zIndex', zIndex)
             slide.css('opacity', 1)
-            if (Math.abs(slideProgress) > 3) {
+            if (translate !== '0px' && translate !== '435px' && translate !== '-585px') {
               slide.css('opacity', 0)
+            }
+            if (Math.abs(slideProgress) > 2) {
+              slide.css('opacity', 0)
+            }
+            if (translate === '535px' || translate === '-985px') {
+              slide.css('opacity', 0.8)
             }
           }
         },
@@ -73,7 +76,7 @@ export default {
         }
       }
     })
-    /* eslint-enable no-new */
+    /* eslint-disalbe no-new */
   }
 }
 
@@ -140,8 +143,12 @@ export default {
     opacity: 0.5;
 }
 
-#certify:hover .swiper-button-prev,#certify:hover .swiper-button-next {
-  opacity: 0.8;
+// #certify:hover .swiper-button-prev,#certify:hover .swiper-button-next {
+//   opacity: 0.8;
+// }
+
+.swiper-button-prev:hover, .swiper-button-next:hover {
+  opacity: 1;
 }
 
 #certify .swiper-button-next {
@@ -162,33 +169,32 @@ export default {
   width: 750px;
   height: 300px;
   align-items: center;
-  opacity: 0!important;
-  transform: all 5s
+  // opacity: 0!important;
+  transition: all;
 }
 
 .swiper-slide-active {
   width: 750px;
   height: 300px;
-  z-index: 3;
-  opacity: 1;
+  // z-index: 3;
+  opacity: 0.5;
 }
 
 .swiper-slide-next, .swiper-slide-prev {
   transform-origin: 100% 50%;
   z-index: -1;
-  opacity: 0.8!important;
+  opacity: 0.8;
 }
 
-.swiper-slide-active {
-  opacity: 1!important;
-}
+// // .swiper-slide-active {
+// //   opacity: 1!important;
+// // }
 
-.swiper-slide-next {
-  transform: translate(-587px,0) scale(0.87)!important;
-}
+// .swiper-slide-next {
+//   transform: translate(-587px,0) scale(0.87)!important;
+// }
 
-.swiper-slide-prev {
-  transform: translate(490px,0) scale(0.87)!important;
-}
-
+// .swiper-slide-prev {
+//   transform: translate(490px,0) scale(0.87)!important;
+// }
 </style>
